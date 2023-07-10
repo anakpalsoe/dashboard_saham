@@ -41,7 +41,7 @@ app.layout = dbc.Container(
                             data=df.to_dict("records"),
                             page_size=10,
                             style_table={"overflowX": "auto"},
-                        )
+                        ),
                     ],
                     width=6,
                 ),
@@ -60,12 +60,12 @@ app.layout = dbc.Container(
         dbc.Row(
             [
                 dbc.RadioItems(
-                    options=dt_melt['market'].unique(),
-                    value='Close',
+                    options=dt_melt["market"].unique(),
+                    value="Close",
                     id="radio-input",
                     inline=True,
                 ),
-                html.Hr()
+                html.Hr(),
             ]
         ),
         dbc.Row(
@@ -76,41 +76,88 @@ app.layout = dbc.Container(
                 )
             ]
         ),
-        dbc.Row([
-            html.Div('Deskripsi',
-            className="text-primary text-center fs-3"),
-            html.Hr()
-        ]),
-        dbc.Row([
-            dbc.Col([dcc.Markdown('''
+        dbc.Row(
+            [
+                html.Div("Deskripsi", className="text-primary text-center fs-3"),
+                html.Hr(),
+            ]
+        ),
+        dbc.Row(
+            [
+                dbc.Col(
+                    [
+                        dcc.Markdown(
+                            """
                                 * ** Mean Close **:{}
                                 * ** Median Close ** :{}
                                 * ** Standar Deviasi Close **:{}
                                 * ** Jumlah Data ** : {}
-                                  '''
-                                  .format(df['Close'].mean().round(2),df['Close'].median(),df['Close'].std().round(2),df['Close'].count()))],width=3),
-            dbc.Col([dcc.Markdown('''
+                                  """.format(
+                                df["Close"].mean().round(2),
+                                df["Close"].median(),
+                                df["Close"].std().round(2),
+                                df["Close"].count(),
+                            )
+                        )
+                    ],
+                    width=3,
+                ),
+                dbc.Col(
+                    [
+                        dcc.Markdown(
+                            """
                                 * ** Mean Open **:{}
                                 * ** Median Open ** :{}
                                 * ** Standar Deviasi Open **:{}
                                 * ** Jumlah Data ** : {}
-                                  '''
-                                  .format(df['Open'].mean().round(2),df['Open'].median(),df['Open'].std().round(2),df['Open'].count()))],width=3),
-            dbc.Col([dcc.Markdown('''
+                                  """.format(
+                                df["Open"].mean().round(2),
+                                df["Open"].median(),
+                                df["Open"].std().round(2),
+                                df["Open"].count(),
+                            )
+                        )
+                    ],
+                    width=3,
+                ),
+                dbc.Col(
+                    [
+                        dcc.Markdown(
+                            """
                                 * ** Mean High **:{}
                                 * ** Median High ** :{}
                                 * ** Standar Deviasi High **:{}
                                 * ** Jumlah Data ** : {}
-                                  '''
-                                  .format(df['High'].mean().round(2),df['High'].median(),df['High'].std().round(2),df['High'].count()))],width=3),
-            dbc.Col([dcc.Markdown('''
+                                  """.format(
+                                df["High"].mean().round(2),
+                                df["High"].median(),
+                                df["High"].std().round(2),
+                                df["High"].count(),
+                            )
+                        )
+                    ],
+                    width=3,
+                ),
+                dbc.Col(
+                    [
+                        dcc.Markdown(
+                            """
                                 * ** Mean Low **:{}
                                 * ** Median Low ** :{}
                                 * ** Standar Deviasi Low **:{}
                                 * ** Jumlah Data ** : {}
-                                  '''
-                                  .format(df['Low'].mean().round(2),df['Low'].median(),df['Low'].std().round(2),df['Low'].count()))],width=3)
-        ])
+                                  """.format(
+                                df["Low"].mean().round(2),
+                                df["Low"].median(),
+                                df["Low"].std().round(2),
+                                df["Low"].count(),
+                            )
+                        )
+                    ],
+                    width=3,
+                ),
+            ]
+        ),
     ],
     fluid=True,
 )
@@ -118,18 +165,15 @@ app.layout = dbc.Container(
 
 @callback(
     Output(component_id="line-graph-final", component_property="figure"),
-    Input(component_id="radio-input",component_property='value'),
+    Input(component_id="radio-input", component_property="value"),
 )
-
 def update_data(select_market):
-    filter_dt=dt_melt[dt_melt.market==select_market]
+    filter_dt = dt_melt[dt_melt.market == select_market]
 
-    fig=px.line(filter_dt, x='Date', y='nilai_market', hover_name='Date')
+    fig = px.line(filter_dt, x="Date", y="nilai_market", hover_name="Date")
 
-
-
-#def update_grap(market_name):
-    #fig = px.line(dt_melt, x="Date", y=market_name, color='market')
+    # def update_grap(market_name):
+    # fig = px.line(dt_melt, x="Date", y=market_name, color='market')
 
     return fig
 
